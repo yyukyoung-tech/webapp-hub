@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#eaf0f6"><title>학생 기록 · 사적인 문장</title><link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/style.css"><script type="module" src="/students.js"></script></head>
+<body>
+<a class="skip" href="#student-editor">학생 기록 작성으로 건너뛰기</a>
+<div class="app-shell student-app">
+  <aside class="sidebar" aria-label="기록 탐색">
+    <a class="brand" href="/"><img src="/favicon.svg" width="40" height="40" alt=""><span>사적인 문장<small>A LITTLE LIFE, IN WORDS</small></span></a>
+    <button id="student-new" class="primary new-button"><span data-icon="plus"></span>새 학생 기록 작성</button>
+    <nav class="nav-list" aria-label="기록 메뉴">
+      <a class="nav-item student-nav-link" href="/"><span data-icon="book"></span>나의 일기장</a>
+      <a class="nav-item student-nav-link active" href="/students" aria-current="page"><span data-icon="students"></span>학생 기록<span id="student-nav-count" class="count">0</span></a>
+    </nav>
+    <section class="student-guide"><div class="section-label">작은 변화도 소중하게</div><h2>학생의 하루를<br>차곡차곡 기록하세요.</h2><p>관찰한 모습, 함께 나눈 이야기,<br>배움의 과정과 다음 계획까지.</p><div class="student-guide-tags"><span>관찰</span><span>상담</span><span>학습</span><span>생활</span></div></section>
+    <div class="sidebar-note"><span class="tiny-leaf">GROWING, DAY BY DAY</span><p>작은 기록이 모여<br>성장을 발견하는 순간.</p></div>
+    <div class="sidebar-bottom mobile-actions"><button id="student-export" class="text-button"><span data-icon="download"></span>학생 기록 내보내기</button><div class="local-indicator"><i></i><span id="student-connection">연결 확인 중</span></div></div>
+  </aside>
+  <main class="main">
+    <header class="page-header"><div><div class="eyebrow">STUDENT JOURNAL</div><h1>함께 자라는, 작은 기록</h1><p>한 사람의 변화를 놓치지 않는 다정한 관찰.</p></div><div class="today-badge" id="student-today"></div></header>
+    <section class="summary student-summary" aria-label="학생 기록 통계"><div><span class="stat-icon" data-icon="students"></span><span><small>등록 학생</small><strong><b id="student-total">0</b> <em>명</em></strong></span></div><div><span class="stat-icon" data-icon="book"></span><span><small>쌓인 학생 기록</small><strong><b id="student-record-total">0</b> <em>건</em></strong></span></div><div><span class="stat-icon" data-icon="calendar"></span><span><small>이번 달의 기록</small><strong><b id="student-month-total">0</b> <em>건</em></strong></span></div></section>
+    <div class="workspace student-workspace">
+      <section class="entries-panel" aria-label="학생 기록 목록">
+        <div class="list-heading"><h2>기록 모아보기</h2><span id="student-list-count">0건의 기록</span></div>
+        <label class="search"><span data-icon="search"></span><input id="student-search" type="search" placeholder="이름, 학년·반, 내용 검색" aria-label="학생 기록 검색"></label>
+        <div class="student-filters"><label for="student-class-filter">반별 보기</label><select id="student-class-filter"><option value="">모든 반</option></select><label for="student-filter">학생별 보기</label><select id="student-filter"><option value="">모든 학생</option></select><label for="student-category-filter">기록 분류</label><select id="student-category-filter"><option value="">모든 분류</option><option value="observation">관찰</option><option value="counseling">상담</option><option value="learning">학습</option><option value="school-life">생활</option></select></div>
+        <div id="student-selection" class="student-selection" role="status" hidden></div><div id="student-records" class="entries"></div>
+      </section>
+      <section id="student-editor" class="editor-panel" aria-labelledby="student-editor-heading">
+        <div class="editor-toolbar"><span id="student-editor-heading" class="editor-kicker">새로운 학생 기록</span><button id="student-delete" class="icon-button danger" aria-label="학생 기록 삭제" hidden><span data-icon="trash"></span></button></div>
+        <form id="student-form" inert>
+          <div class="paper">
+            <label for="student-roster" class="student-field-label">명렬표에서 학생 선택</label><select id="student-roster" class="student-roster-select"><option value="">직접 입력</option></select><div class="student-fields">
+              <label>학생 이름 <span class="required-mark">*</span><input id="student-name" name="student_name" maxlength="80" placeholder="예: 홍길동" autocomplete="off" required></label>
+              <label>학년·반<input id="student-classroom" name="classroom" maxlength="80" placeholder="예: 3학년 2반" autocomplete="off"></label>
+              <label>번호<input id="student-number" name="student_number" maxlength="20" placeholder="예: 7" autocomplete="off"></label>
+              <label>기록 날짜 <span class="required-mark">*</span><input id="student-date" name="date" type="date" required></label>
+              <label>기록 분류<select id="student-category" name="category"><option value="observation">관찰</option><option value="counseling">상담</option><option value="learning">학습</option><option value="school-life">생활</option></select></label>
+            </div>
+            <label for="student-title" class="student-field-label">기록 제목</label><input id="student-title" class="title-input student-title-input" maxlength="120" placeholder="어떤 모습을 발견했나요?" autocomplete="off">
+            <div class="paper-rule"></div>
+            <label for="student-content" class="student-field-label">기록 내용 <span class="required-mark">*</span></label><textarea id="student-content" maxlength="100000" placeholder="직접 관찰한 모습이나 나눈 이야기를 구체적으로 남겨주세요.&#10;&#10;예: 모둠 활동에서 친구의 의견을 끝까지 듣고, 자신의 생각을 덧붙여 발표함." required></textarea>
+            <label for="student-follow-up" class="student-field-label">다음에 함께할 일 <span class="optional-label">선택</span></label><textarea id="student-follow-up" class="student-follow-up" maxlength="10000" placeholder="후속 상담, 수업 지원, 다음 관찰 계획 등을 적어보세요."></textarea>
+            <div class="paper-end"><span>기록한 순간부터, 성장이 보이기 시작해요.</span><span id="student-char-count">0자</span></div>
+          </div>
+          <div class="editor-footer"><span id="student-save-status" role="status">기록을 불러오는 중…</span><button id="student-save" type="submit" class="primary"><span data-icon="check"></span>학생 기록 저장</button></div>
+          <p id="student-error" class="form-error" role="alert" hidden></p>
+        </form>
+      </section>
+    </div>
+    <footer class="page-footer"><span>사적인 문장 <span class="footer-dot">·</span> 함께 성장하는 시간</span><span>학생 기록은 이 컴퓨터의 SQLite에 보관됩니다.</span></footer>
+  </main>
+</div>
+<div id="student-toast" class="toast" role="status" hidden></div>
+<dialog id="student-dialog"><form method="dialog"><h2 id="student-dialog-title"></h2><p id="student-dialog-message"></p><div class="dialog-actions"><button value="cancel" class="secondary">돌아가기</button><button value="confirm" id="student-dialog-action" class="primary">계속하기</button></div></form></dialog>
+</body></html>
+

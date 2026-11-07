@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#eaf0f6"><meta name="description" content="나의 하루를 차곡차곡, 이 컴퓨터에 간직하는 사적인 일기장"><title>사적인 문장 · 나의 작은 기록</title><link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/style.css"><script type="module" src="/app.js"></script></head>
+<body>
+<a class="skip" href="#editor">일기 작성으로 건너뛰기</a>
+<div class="app-shell">
+  <aside class="sidebar" aria-label="일기 탐색">
+    <a class="brand" href="/" aria-label="사적인 문장 홈"><img src="/favicon.svg" width="40" height="40" alt=""><span>사적인 문장<small>A LITTLE LIFE, IN WORDS</small></span></a>
+    <button id="new-entry" class="primary new-button"><span data-icon="plus"></span>새로운 하루 기록하기</button>
+    <nav class="nav-list" aria-label="기록 분류"><a href="/students" class="nav-item student-nav-link"><span data-icon="book"></span>학생 기록</a>
+      <button data-view="all" class="nav-item active" aria-current="page"><span data-icon="book"></span>모든 기록<span id="all-count" class="count">0</span></button>
+      <button data-view="starred" class="nav-item"><span data-icon="star"></span>아껴둔 문장<span id="star-count" class="count">0</span></button>
+      <button data-view="today" class="nav-item"><span data-icon="sun"></span>오늘의 기록</button>
+    </nav>
+    <section class="calendar-section"><div class="section-label">기록의 달력</div><div class="calendar-heading"><strong id="calendar-title"></strong><div><button id="prev-month" class="icon-button" aria-label="이전 달"><span data-icon="left"></span></button><button id="next-month" class="icon-button" aria-label="다음 달"><span data-icon="right"></span></button></div></div><div class="weekdays" aria-hidden="true"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div><div id="calendar" class="calendar" aria-label="날짜별 일기 조회"></div><div class="calendar-legend"><i></i>문장을 남긴 날 <button id="clear-date" class="text-button" hidden>선택 해제</button></div></section>
+    <div class="sidebar-note"><span class="tiny-leaf">YOUR EVERYDAY, IN WORDS</span><p>평범한 하루도<br>기록하면 특별해지니까.</p><span>당신의 이야기를 천천히 남겨보세요.</span></div>
+    <div class="sidebar-bottom"><button id="export" class="text-button"><span data-icon="download"></span>기록 내보내기</button><div class="local-indicator"><i></i><span id="connection">연결 확인 중</span></div></div>
+  </aside>
+  <main class="main">
+    <header class="page-header"><div><div class="eyebrow">MY PERSONAL JOURNAL</div><h1>차곡차곡, 나의 하루</h1><p>지나가는 순간을 오래도록 간직하는 곳.</p></div><div class="today-badge"><span data-icon="sun"></span><span id="today-label"></span></div></header>
+    <section class="summary" aria-label="기록 통계"><div><span class="stat-icon" data-icon="book"></span><span><small>쌓인 이야기</small><strong><b id="total-stat">0</b> <em>편</em></strong></span></div><div><span class="stat-icon" data-icon="calendar"></span><span><small>이번 달의 기록</small><strong><b id="month-stat">0</b> <em>편</em></strong></span></div><div><span class="stat-icon" data-icon="leaf"></span><span><small>연속으로 기록한 날</small><strong><b id="streak-stat">0</b> <em>일</em></strong></span></div><div class="summary-message"><span>서두르지 않아도 괜찮아요.</span><small>한 문장부터 시작해 볼까요?</small></div></section>
+    <div class="workspace">
+      <section class="entries-panel" aria-label="일기 목록"><div class="list-heading"><h2 id="list-title">모든 기록</h2><span id="list-count">0편의 이야기</span></div><label class="search"><span data-icon="search"></span><input id="search" type="search" placeholder="기억하고 싶은 순간 찾기" aria-label="제목과 본문 검색"></label><div class="list-options"><label for="mood-filter">기분</label><select id="mood-filter"><option value="">모든 기분</option value="great">아주 좋음</option><option value="good">좋음</option><option value="okay">평온함</option><option value="low">지침</option><option value="sad">속상함</option></select><select id="sort" aria-label="정렬 순서"><option value="desc">최신순</option><option value="asc">오래된순</option></select></div><div id="entries" class="entries"></div></section>
+      <section id="editor" class="editor-panel" aria-labelledby="editor-heading"><div class="editor-toolbar"><span class="editor-kicker"><i></i><span id="editor-heading">오늘의 한 페이지</span></span><div><button id="star" class="icon-button" aria-label="아껴둔 문장으로 저장" aria-pressed="false"><span data-icon="star"></span></button><button id="delete" class="icon-button danger" aria-label="일기 삭제" hidden><span data-icon="trash"></span></button></div></div>
+      <form id="entry-form"><div class="paper"><div class="paper-top"><label class="date-label"><span data-icon="calendar"></span><input id="entry-date" type="date" required aria-label="일기 날짜"></label><span class="paper-tag">DEAR, MY DAY</span></div><label for="title" class="sr-only">일기 제목</label><input id="title" class="title-input" maxlength="120" placeholder="오늘은 어떤 하루였나요?" autocomplete="off"><div class="mood-row"><span>오늘의 마음</span><div id="moods" class="moods" role="group" aria-label="오늘의 기분"></div></div><div class="paper-rule"></div><label for="content" class="sr-only">일기 본문</label><textarea id="content" maxlength="100000" placeholder="마음에 남은 작은 순간, 스쳐 간 생각,\n혹은 아무에게도 하지 못한 이야기.\n\n잘 쓰려고 하지 않아도 괜찮아요.\n여기는 오롯이 당신만의 공간이니까요." required></textarea><div class="paper-end"><span>오늘의 나를, 오래 기억하기.</span><span id="char-count">0자</span></div></div><div class="editor-footer"><span id="save-status" role="status">나만의 첫 문장을 남겨보세요.</span><button id="save" class="primary" type="submit"><span data-icon="check"></span>기록 저장하기</button></div><p id="form-error" class="form-error" role="alert" hidden></p></form></section>
+    </div>
+    <footer class="page-footer"><span>사적인 문장 <span class="footer-dot">·</span> 나에게 다정해지는 시간</span><span>당신의 기록은 이 컴퓨터에 보관됩니다.</span></footer>
+  </main>
+</div>
+<div id="toast" class="toast" role="status" hidden></div>
+<dialog id="confirm-dialog"><form method="dialog"><div class="dialog-symbol" data-icon="book"></div><h2 id="dialog-title"></h2><p id="dialog-message"></p><div class="dialog-actions"><button value="cancel" class="secondary">돌아가기</button><button value="confirm" class="primary" id="dialog-confirm">계속하기</button></div></form></dialog>
+</body></html>
+
+
